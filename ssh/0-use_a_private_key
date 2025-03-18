@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Define variables
 KEY_NAME="school"
 PASSPHRASE="betty"
