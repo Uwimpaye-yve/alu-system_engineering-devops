@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 # Define variables
-KEY_NAME="school"
-BITS=4096
+# connecting to sever
+ssh -i ~/.ssh/school ubuntu@3.86.234.74 -y  
 
-# Generate RSA key pair
-ssh-keygen -t rsa -b $BITS -f ~/.ssh/$KEY_NAME 
-
-echo "RSA key pair generated: $KEY_NAME (private) and $KEY_NAME.pub (public)"
