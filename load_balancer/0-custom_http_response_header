@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
-# your script should contain "add_header X-Served-By $hostname;" or else fail. DUMB Intranet.
-sudo apt-get update -y;
-sudo apt-get install -y nginx;
-sudo apt-get install -y ufw;
+# Installs nginx web server and configures it to serve a page containing "Holberton School"
 
-sudo ufw enable;
-sudo ufw allow 'Nginx HTTP';
-sudo ufw allow 'OpenSSH';
+# Update package lists and install nginx
+apt-get update
+apt-get install -y nginx
 
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html;
-sudo cp ./nginx.conf /etc/nginx/sites-enabled/default;
+# Make sure nginx is running
+service nginx start
 
-sudo service nginx restart;
+# Configure nginx to listen on port 80 (default)
+# Create the html page with the required content
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+
+# Ensure nginx configuration is applied
+service nginx restart
