@@ -2,6 +2,13 @@
 # Install and configure HAProxy on lb-01 server
 # Configure it to use round-robin algorithm to distribute requests
 
+set -e  # Exit on error
+
+# Variables
+# STUDENT_ID="your_student_id"
+WEB1="3.86.234.74"
+WEB2="3.93.147.156"
+
 # Update package lists
 sudo apt-get -y update
 
@@ -15,10 +22,9 @@ echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.original
 
 # Configure HAProxy
-sudo bash -c 'cat > /etc/haproxy/haproxy.cfg << EOF
+sudo bash -c "cat > /etc/haproxy/haproxy.cfg << EOF
 global
     log 127.0.0.1 local0 notice
-    maxconn 2000
     user haproxy
     group haproxy
 
@@ -26,9 +32,6 @@ defaults
     log     global
     mode    http
     option  httplog
-    option  dontlognull
-    retries 3
-    option redispatch
     timeout connect  5000
     timeout client  10000
     timeout server  10000
@@ -39,10 +42,13 @@ frontend http_front
 
 backend http_back
     balance roundrobin
-    server web-01 3.86.234.74:80 check
-    server web-02 3.93.147.156:80 check
-EOF'
-
+    server web-01 $WEB1:80 check
+    server web-02 $WEB2:80 check
+EOF"
 
 # Restart HAProxy service
 sudo service haproxy restart
+
+# Check HAProxy status
+sudo systemctl status haproxy
+
